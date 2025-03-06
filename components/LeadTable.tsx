@@ -4,7 +4,7 @@
 import React from "react";
 import { Lead, LeadState } from "@/app/api/leads/data";
 import { FaCheckCircle } from "react-icons/fa";
-import styles from "../app/styles/AdminPage.module.css";
+import styles from "../app/styles/LeadList.module.css";
 
 interface LeadTableProps {
   leads: Lead[];

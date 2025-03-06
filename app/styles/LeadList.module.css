@@ -1,11 +1,11 @@
-/* AdminPage.module.css */
+/* LeadList.module.css */
 
 /* 
   The container for the entire admin layout:
   - A side nav on the left
   - Main content on the right
 */
-/* Additional styles in AdminPage.module.css */
+/* Additional styles in LeadList.module.css */
 .filterContainer {
   display: flex;
   gap: 1rem;
@@ -182,7 +182,7 @@
     margin-bottom: 0.5rem;
   }
 }
-/* AdminPage.module.css */
+/* LeadList.module.css */
 
 /* Existing styles for adminLayout, mainContent, etc. remain here */
 

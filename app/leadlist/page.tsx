@@ -8,11 +8,11 @@ import { LeadState } from "@/app/api/leads/data";
 
 import Filters from "@/components/Filters";
 import LeadTable from "@/components/LeadTable";
-import styles from "../styles/AdminPage.module.css";
+import styles from "../styles/LeadList.module.css";
 import Sidebar from "@/components/SideBar";
 // import { FaCheckCircle } from "react-icons/fa";
 
-const AdminPage: React.FC = () => {
+const LeadList: React.FC = () => {
   // Authentication modal state
   const [authorized, setAuthorized] = useState(false);
   const [username, setUsername] = useState("");
@@ -221,4 +221,4 @@ const AdminPage: React.FC = () => {
   );
 };
 
-export default AdminPage;
+export default LeadList;

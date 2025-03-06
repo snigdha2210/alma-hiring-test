@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { FaBars, FaTimes } from "react-icons/fa";
-import styles from "../app/styles/AdminPage.module.css";
+import styles from "../app/styles/LeadList.module.css";
 
 const Sidebar: React.FC = () => {
   const [open, setOpen] = useState(false);

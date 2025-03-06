@@ -3,7 +3,7 @@
 
 import React from "react";
 import { LeadState } from "@/app/api/leads/data";
-import styles from "../app/styles/AdminPage.module.css";
+import styles from "../app/styles/LeadList.module.css";
 
 interface FiltersProps {
   searchTerm: string;
