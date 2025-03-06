@@ -1,14 +1,17 @@
-// components/LeadList.tsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { updateLeadState } from "../redux/slices/leadSlice";
+import { LeadState } from "@/app/api/leads/data";
 
 const LeadList: React.FC = () => {
   const leads = useSelector((state: RootState) => state.leads.leads);
   const dispatch = useDispatch();
 
-  const handleStateChange = async (id: string, newState: "REACHED_OUT") => {
+  const handleStateChange = async (
+    id: string,
+    newState: LeadState.REACHED_OUT,
+  ) => {
     try {
       const res = await fetch(`/api/leads/${id}`, {
         method: "PATCH",
@@ -42,7 +45,9 @@ const LeadList: React.FC = () => {
             <td>
               {lead.state === "PENDING" && (
                 <button
-                  onClick={() => handleStateChange(lead.id, "REACHED_OUT")}
+                  onClick={() =>
+                    handleStateChange(lead.id, LeadState.REACHED_OUT)
+                  }
                 >
                   Mark as Reached Out
                 </button>

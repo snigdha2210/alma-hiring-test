@@ -11,9 +11,12 @@
   - Has a background image (fake-hero-bg.png).
   - Contains a max-width container (.heroContent) that left-aligns the logo & heading.
 */
+body {
+  margin: 0;
+}
 .heroSection {
   background: url("/images/hero-section.png") no-repeat center / cover;
-  padding: 3rem 1rem; /* spacing around the hero */
+  padding: 5rem 0rem; /* spacing around the hero */
 }
 
 /* 

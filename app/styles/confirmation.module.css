@@ -1,5 +1,7 @@
 /* Confirmation.module.css */
-
+body {
+  margin: 0;
+}
 .confirmationContainer {
   display: flex;
   flex-direction: column;

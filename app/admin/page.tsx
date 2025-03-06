@@ -1,93 +1,114 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import LeadList from "@/components/LeadList";
+import React, { useState } from "react";
+// import { useRouter } from "next/navigation";
 
-export default function AdminPage() {
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const router = useRouter();
+const AdminPage: React.FC = () => {
+  // const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (!isLoggedIn) {
-      router.push("/login");
-    } else {
+  // Dummy credentials: update these as needed
+  const validUsername = "admin";
+  const validPassword = "password";
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Validate credentials
+    if (username === validUsername && password === validPassword) {
       setAuthorized(true);
-    }
-  }, [router]);
-
-  if (!authorized) {
-    return null; // or a loading spinner
-  }
-  // Fetch leads from an API endpoint or in-memory data on mount
-  useEffect(() => {
-    const fetchLeads = async () => {
-      try {
-        const response = await fetch("/api/leads");
-        const data = await response.json();
-        setLeads(data);
-      } catch (error) {
-        console.error("Error fetching leads:", error);
-      }
-    };
-    fetchLeads();
-  }, []);
-
-  // Function to handle lead state change
-  const handleStateChange = async (id: string, newState: "REACHED_OUT") => {
-    try {
-      const res = await fetch(`/api/leads/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newState }),
-      });
-      if (res.ok) {
-        // Update local state
-        setLeads((prevLeads) =>
-          prevLeads.map((lead) =>
-            lead.id === id ? { ...lead, state: newState } : lead,
-          ),
-        );
-      }
-    } catch (error) {
-      console.error("Error updating lead state:", error);
+      setError("");
+    } else {
+      setError("Invalid credentials. Please try again.");
     }
   };
 
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Admin Leads List</h1>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={{ textAlign: "left" }}>Name</th>
-            <th style={{ textAlign: "left" }}>Email</th>
-            <th style={{ textAlign: "left" }}>Visas</th>
-            <th style={{ textAlign: "left" }}>State</th>
-            <th style={{ textAlign: "left" }}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leads.map((lead) => (
-            <tr key={lead.id}>
-              <td>{`${lead.firstName} ${lead.lastName}`}</td>
-              <td>{lead.email}</td>
-              <td>{lead.visas.join(", ")}</td>
-              <td>{lead.state}</td>
-              <td>
-                {lead.state === "PENDING" && (
-                  <button
-                    onClick={() => handleStateChange(lead.id, "REACHED_OUT")}
-                  >
-                    Mark as Reached Out
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  // The modal overlay for authorization if not logged in.
+  const renderAuthModal = () => (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(0, 0, 0, 0.9)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          background: "#fff",
+          padding: "2rem",
+          borderRadius: "8px",
+          maxWidth: "400px",
+          width: "90%",
+          textAlign: "center",
+        }}
+      >
+        <h2>Authorization</h2>
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+            <label>Username</label>
+            <input
+              type='text'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ width: "100%", padding: "0.5rem", marginTop: "0.25rem" }}
+            />
+          </div>
+          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+            <label>Password</label>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "100%", padding: "0.5rem", marginTop: "0.25rem" }}
+            />
+          </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button
+            type='submit'
+            style={{
+              background: "#000",
+              color: "#fff",
+              border: "none",
+              padding: "0.75rem 1.5rem",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
-}
+
+  // Render the page. If not authorized, we still render the leads list in the background,
+  // but we overlay it with the auth modal.
+  return (
+    <div style={{ position: "relative" }}>
+      <div
+        style={{
+          opacity: authorized ? 1 : 0.5,
+          pointerEvents: authorized ? "auto" : "none",
+        }}
+      >
+        <h1>Admin Leads List</h1>
+
+        <p>This is where your internal leads list will be displayed.</p>
+        <LeadList />
+      </div>
+      {!authorized && renderAuthModal()}
+    </div>
+  );
+};
+
+export default AdminPage;
