@@ -194,3 +194,32 @@ body {
     padding: 1.5rem;
   }
 }
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .heroSection {
+    padding: 2rem 1rem;
+  }
+  .heroContent {
+    padding: 0 1rem;
+  }
+  .heroTitle {
+    font-size: 1.8rem;
+    padding-left: 1rem; /* reduce padding for smaller screens */
+    text-align: center;
+  }
+  .mainContent {
+    padding: 0 1rem;
+    margin: 1.5rem auto;
+  }
+  .formContainer {
+    padding: 1.5rem;
+  }
+  .input,
+  .fileInput,
+  .textarea {
+    font-size: 0.9rem;
+  }
+  .submitButton {
+    width: 100px;
+  }
+}

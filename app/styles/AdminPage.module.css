@@ -11,8 +11,8 @@
   gap: 1rem;
   align-items: center;
   margin-bottom: 1rem;
-  width: 600px;
 }
+
 .iconButton {
   background: none;
   border: none;
@@ -102,6 +102,7 @@
   background-color: #fff;
   border-radius: 8px;
   padding: 1rem;
+  overflow-x: auto;
 }
 
 .tableTitleBar {
@@ -152,4 +153,141 @@
 .statusReached {
   color: #4caf50; /* green */
   font-weight: 500;
+}
+@media (max-width: 768px) {
+  .adminLayout {
+    flex-direction: column;
+  }
+  .sidebar {
+    display: none; /* Hide sidebar on small screens */
+  }
+  .mainContent {
+    width: 100%;
+    padding: 1rem;
+  }
+  .tableContainer {
+    padding: 0.5rem;
+  }
+  .pageHeader {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  .filterContainer {
+    flex-direction: column;
+    align-items: stretch; /* so that inputs take full width */
+  }
+  .filterContainer input,
+  .filterContainer select {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+/* AdminPage.module.css */
+
+/* Existing styles for adminLayout, mainContent, etc. remain here */
+
+/* Sidebar styles for large screens */
+.sidebar {
+  width: 240px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Sidebar header (logo and close icon) */
+.sidebarHeader {
+  display: none; /* hidden by default on large screens */
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebarLogo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Sidebar nav items */
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.sidebarNavItem {
+  cursor: pointer;
+  color: #ccc;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.sidebarNavItem:hover {
+  color: #fff;
+}
+
+/* Sidebar bottom area */
+.sidebarBottom {
+  padding: 1.5rem;
+  border-top: 1px solid #333;
+}
+
+/* Hamburger icon – hidden on large screens */
+.hamburgerIcon {
+  display: none;
+}
+
+/* Overlay for mobile sidebar */
+.sidebarOverlay {
+  display: none;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Show hamburger icon on small screens */
+  .hamburgerIcon {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+  }
+
+  /* Sidebar becomes overlay on small screens */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -240px;
+    width: 240px;
+    height: 100%;
+    background-color: #000;
+    color: #fff;
+    transition: left 0.3s ease;
+    z-index: 1200;
+  }
+
+  /* When sidebar is open, slide it in */
+  .openSidebar {
+    left: 0;
+  }
+
+  /* Show the sidebar header (logo and close icon) in mobile mode */
+  .sidebarHeader {
+    display: flex;
+  }
+
+  /* Show overlay when sidebar is open */
+  .sidebarOverlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1150;
+  }
 }
