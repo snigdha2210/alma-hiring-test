@@ -5,13 +5,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 6rem; /* adjust as needed */
+  margin-top: 6rem;
   text-align: center;
   padding: 0 1rem;
 }
 
 .confirmationIcon {
-  width: 64px; /* or the size you prefer */
+  width: 64px;
   height: 64px;
   margin-bottom: 1.5rem;
 }

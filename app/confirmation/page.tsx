@@ -10,7 +10,7 @@ export default function Confirmation() {
     <div className={styles.confirmationContainer}>
       {/* Confirmation Icon */}
       <Image
-        src='/images/folder.png' // Replace with your actual icon
+        src='/images/folder.png'
         alt='Confirmation Icon'
         width={64}
         height={64}

@@ -1,42 +1,28 @@
-// redux/slices/leadSlice.ts
+import { Lead, LeadState } from "@/app/api/leads/data";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface Lead {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  linkedin: string;
-  visas: string[];
-  resumeUrl?: string; // or just store the file name
-  additionalInfo: string;
-  state: "PENDING" | "REACHED_OUT";
-  submittedAt: string;
-  country?: string; // if relevant from the UI
-}
-
-interface LeadsState {
+interface Leads {
   leads: Lead[];
 }
 
-const initialState: LeadsState = {
+const initialState: Leads = {
   leads: [],
 };
 
-export const leadSlice = createSlice({
+const leadSlice = createSlice({
   name: "leads",
   initialState,
   reducers: {
-    setLeads: (state, action: PayloadAction<Lead[]>) => {
+    setLeads(state, action: PayloadAction<Lead[]>) {
       state.leads = action.payload;
     },
-    updateLeadState: (
+    updateLeadState(
       state,
       action: PayloadAction<{
         id: string;
-        newState: "PENDING" | "REACHED_OUT";
+        newState: LeadState;
       }>,
-    ) => {
+    ) {
       const { id, newState } = action.payload;
       const index = state.leads.findIndex((lead) => lead.id === id);
       if (index !== -1) {

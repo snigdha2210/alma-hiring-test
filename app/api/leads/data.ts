@@ -1,4 +1,7 @@
-// pages/api/leads/data.ts
+export enum LeadState {
+  PENDING = "PENDING",
+  REACHED_OUT = "REACHED_OUT",
+}
 
 export interface Lead {
   id: string;
@@ -7,11 +10,10 @@ export interface Lead {
   email: string;
   linkedin: string;
   visas: string[];
-  resumeUrl?: string;
   additionalInfo: string;
-  state: "PENDING" | "REACHED_OUT";
+  state: LeadState;
+  resumeUrl?: string;
   submittedAt: string;
-  country?: string; // optional
 }
 
 export const leads: Lead[] = [];

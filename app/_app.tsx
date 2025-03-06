@@ -1,15 +1,16 @@
-// pages/_app.tsx
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <html>
+      <body>
+        <Provider store={store}>{children}</Provider>
+      </body>
+    </html>
   );
 }
-
-export default MyApp;
