@@ -117,8 +117,8 @@ body {
 /* File input */
 .fileInput {
   font-size: 0.95rem;
-  padding: 0;
-  background-color: #efefef;
+  padding: 10px;
+  background-color: #ededed;
   border-radius: 8px;
 }
 

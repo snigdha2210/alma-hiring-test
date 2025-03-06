@@ -1,26 +1,31 @@
 "use client";
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import styles from "../app/styles/LeadForm.module.css";
 import Image from "next/image";
+import CountrySelect from "./CountrySelect";
 
 type LeadFormData = {
   firstName: string;
   lastName: string;
   email: string;
-  country: string;
+  country: CountryOption;
   linkedin: string;
   visas: string[];
   resume: FileList;
   additionalInfo: string;
 };
-
+type CountryOption = {
+  value: string;
+  label: string;
+};
 const LeadForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<LeadFormData>();
   const router = useRouter();
@@ -30,7 +35,10 @@ const LeadForm: React.FC = () => {
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("email", data.email);
-    formData.append("country", data.country);
+    // Append country value if selected
+    if (data.country) {
+      formData.append("country", data.country.label);
+    }
     formData.append("linkedin", data.linkedin);
     data.visas.forEach((visa) => formData.append("visas", visa));
     formData.append("additionalInfo", data.additionalInfo);
@@ -133,17 +141,35 @@ const LeadForm: React.FC = () => {
             </div>
 
             {/* COUNTRY */}
-
+            {/* Country dropdown */}
             <div className={styles.fieldGroup}>
+              <Controller
+                control={control}
+                name='country'
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <CountrySelect
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.country && (
+                <p className={styles.errorMessage}>Country is required</p>
+              )}
+            </div>
+            {/* <div className={styles.fieldGroup}>
               <input
                 className={styles.input}
                 {...register("country", { required: true })}
                 placeholder='Country of Citizenship'
               />
               {errors.country && (
-                <p className={styles.errorMessage}>This field is required</p>
+                <p className={styles.errorMessage}>
+                  Country of Citizenship is required
+                </p>
               )}
-            </div>
+            </div> */}
 
             {/* LINKEDIN */}
 
@@ -245,10 +271,12 @@ const LeadForm: React.FC = () => {
                 className={styles.textarea}
                 rows={4}
                 {...register("additionalInfo", { required: true })}
-                placeholder='Tell us more about your immigration goals...'
+                placeholder='Tell us more about your immigration goals. What is your current immigration status? What is your past immigration history?'
               />
               {errors.additionalInfo && (
-                <p className={styles.errorMessage}>This field is required</p>
+                <p className={styles.errorMessage}>
+                  Additional Information is required
+                </p>
               )}
             </div>
 

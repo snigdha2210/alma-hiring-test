@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/AdminPage.module.css";
 import { Lead, LeadState } from "../api/leads/data";
 import { RootState } from "@/redux/store";
-// import { useRouter } from "next/navigation";
 
 const AdminPage: React.FC = () => {
   // const router = useRouter();
