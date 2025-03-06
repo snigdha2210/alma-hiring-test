@@ -1,156 +1,180 @@
 /* LeadForm.module.css */
 
-/* 
-  The entire page container that includes a hero section at the top 
-  with a background image or color. 
-*/
+/* The entire page has a light background. */
 .pageContainer {
-  /* The page is at least the full viewport height */
-  min-height: 100vh;
+  background-color: #fff;
+  /* We don't necessarily need min-height: 100vh unless we want the page to stretch fully. */
+}
+
+/* 
+  Hero Section: 
+  - Has a background image (fake-hero-bg.png).
+  - Contains a max-width container (.heroContent) that left-aligns the logo & heading.
+*/
+.heroSection {
+  background: url("/images/hero-section.png") no-repeat center / cover;
+  padding: 3rem 1rem; /* spacing around the hero */
+}
+
+/* 
+  A container inside the hero to control max width and left alignment.
+  We center this container itself, but text inside is left-aligned.
+*/
+.heroContent {
+  max-width: 600px; /* or our desired page width */
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  /* Adjust or remove if we want a specific background color behind the image */
-  background-color: #fafaf7;
+  align-items: flex-start; /* left align items */
 }
 
 /* 
-    The top hero section that holds the background image and the heading. 
-    The height can be adjusted depending on how large we want the hero to be.
-  */
-.heroSection {
-  background: url("/images/hero-section.png") no-repeat top left;
-  background-size: cover; /* Adjust if our image is large or small */
-  background-color: #d3dec5; /* A fallback greenish color, or match our brand */
-  width: 100%;
-  padding: 5rem 2rem;
-  text-align: center;
+  Logo Container 
+  - Left aligned, but we can adjust spacing/margin if desired.
+*/
+.logoContainer {
+  margin-bottom: 1rem;
 }
 
-/* The large heading in the hero section */
+/* 
+  Hero Title 
+  - Large heading, left aligned
+*/
 .heroTitle {
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 1rem 0;
-  color: #2c2c2c; /* Dark text */
-}
-
-/* The main subtitle or descriptive text under the heading */
-.heroSubtitle {
-  font-size: 1rem;
-  color: #555;
-  max-width: 600px;
-  margin: 0 auto; /* center text for large screens */
-  line-height: 1.5;
+  margin: 0.5rem 0;
+  color: #2c2c2c;
+  text-align: left;
 }
 
 /* 
-    Container for the form content itself, placed below the hero.
-    we can add a margin-top to create spacing from the hero section.
-  */
+  The rest of the page content (form) starts below the hero section.
+  We add some top margin to create space between the hero and form.
+*/
+.mainContent {
+  max-width: 600px; /* narrower container for the form */
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #000;
+  /* font-weight: 600; */
+  text-align: center;
+}
+
+.question {
+  font-size: 1.5em;
+}
+.questionContent {
+  font-size: 1em;
+}
+/* 
+  The form container with a white background, 
+  no negative margin overlap, just a simple card style if we want it.
+*/
 .formContainer {
-  max-width: 500px;
-  width: 100%;
-  background: #fff;
-  margin: -3rem auto 2rem; /* negative margin to overlap hero if desired */
-  border-radius: 8px;
+  /* background: #fff; */
+  /* border-radius: 8px; */
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  z-index: 10;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); */
 }
 
-/* 
-    Title above the form fields (if we need a second heading 
-    or we can omit this if our hero title is the main heading)
-  */
-.formTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-/* Optional smaller instructions above the fields */
-.formInstructions {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 2rem;
-  text-align: center;
-  line-height: 1.4;
-}
-
-/* Container for all fields (flex column) */
+/* The form fields are displayed in a column. */
 .formFields {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* spacing between fields */
+  gap: 1.5rem; /* spacing between form elements */
 }
 
-/* Each label + input group */
+/* Each field group wraps an input or select or textarea. */
 .fieldGroup {
   display: flex;
   flex-direction: column;
 }
 
-.label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-/* Inputs, selects, and textareas share some base styles */
+/* Inputs, selects, textareas share base styles. */
 .input,
 .select,
 .textarea {
   padding: 0.75rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 1rem;
+  background-color: #fff;
+  color: #000;
   outline: none;
 }
 
-/* For multiple select fields */
+/* Multiple select styling */
 .select[multiple] {
   height: 5rem;
   overflow-y: auto;
 }
 
-/* If we want a smaller or different style for file inputs */
+/* File input */
 .fileInput {
   font-size: 0.95rem;
   padding: 0;
+  background-color: #efefef;
+  border-radius: 8px;
 }
 
-/* Style the textarea specifically */
+/* Textarea resizing */
 .textarea {
   resize: vertical;
 }
 
-/* Submit button styling */
+/* Centering images (icons) in the form. 
+   we can also wrap them in a container if we prefer. */
+.questionIcon {
+  display: block;
+  margin: 0 auto; /* centers horizontally */
+  margin-top: 10px;
+}
+
+/* Submit button: black background, white text. */
 .submitButton {
   display: inline-block;
-  background: #000; /* or our brand color */
+  background: #000;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  margin-top: 1rem;
-  align-self: center; /* centers the button if using flex */
+  align-self: center;
   transition: background 0.3s ease;
+  width: 500px;
 }
 
 .submitButton:hover {
-  background: #333; /* slightly different shade */
+  background: #333;
 }
 
-/* 
-    Basic error message style
-  */
+/* Error message styling */
 .errorMessage {
   color: red;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* spacing between each checkbox row */
+}
+
+/* Each label wraps the checkbox and the text */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between the checkbox and the text */
+}
+
+/* Optionally, style the checkbox input itself */
+.checkboxLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: black;
 }
 
 /* Responsive adjustments */
@@ -158,8 +182,11 @@
   .heroTitle {
     font-size: 2rem;
   }
+  .mainContent {
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
   .formContainer {
-    margin: -2rem auto 2rem;
     padding: 1.5rem;
   }
 }

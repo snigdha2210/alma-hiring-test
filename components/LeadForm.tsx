@@ -4,6 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import styles from "../app/styles/LeadForm.module.css";
+import Image from "next/image";
 
 type LeadFormData = {
   firstName: string;
@@ -48,146 +49,234 @@ const LeadForm: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Hero section */}
+      {/* Hero Section with only the logo & heading */}
       <div className={styles.heroSection}>
-        <h1 className={styles.heroTitle}>
-          Get An Assessment Of Your Immigration Case
-        </h1>
-        <p className={styles.heroSubtitle}>
-          Submit the form below and our team of experienced attorneys will
-          review your information and provide a preliminary assessment of your
-          case based on your goals.
-        </p>
+        <div className={styles.heroContent}>
+          {/* Logo */}
+          <div className={styles.logoContainer}>
+            <Image
+              src='/images/alma-logo.png'
+              alt='Alma Logo'
+              width={100}
+              height={30}
+              className={styles.almaLogo}
+            />
+          </div>
+          {/* Heading */}
+          <h1 className={styles.heroTitle}>
+            Get An Assessment Of Your Immigration Case
+          </h1>
+        </div>
       </div>
 
-      {/* Form container */}
-      <div className={styles.formContainer}>
-        {/* Optional second heading inside the form (remove if not needed) */}
-        {/* <h2 className={styles.formTitle}>Tell Us About Yourself</h2> */}
-        {/* <p className={styles.formInstructions}>Fill in the information below...</p> */}
+      {/* The rest of the page content starts here */}
+      <div className={styles.mainContent}>
+        {/* If we want to keep the subtitle, place it here (left aligned or centered). */}
 
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.formFields}>
-          {/* FIRST NAME */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>First Name</label>
-            <input
-              className={styles.input}
-              {...register("firstName", { required: true })}
-              placeholder='John'
+        <div className={styles.formContainer}>
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.formFields}>
+            {/* Icon + Field: Center the icon using .questionIcon */}
+            <Image
+              src='/images/folder.png'
+              alt='First Name Icon'
+              width={50}
+              height={50}
+              className={styles.questionIcon}
             />
-            {errors.firstName && (
-              <p className={styles.errorMessage}>First Name is required</p>
-            )}
-          </div>
+            <h4 className={styles.question}>
+              Want to understand your visa options?
+            </h4>
+            <p className={styles.questionContent}>
+              Submit the form below and our team of experienced attorneys will
+              review your information and send a preliminary assessment of your
+              case based on your goals.
+            </p>
+            <div className={styles.fieldGroup}>
+              <input
+                className={styles.input}
+                {...register("firstName", { required: true })}
+                placeholder='First Name'
+              />
+              {errors.firstName && (
+                <p className={styles.errorMessage}>First Name is required</p>
+              )}
+            </div>
 
-          {/* LAST NAME */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Last Name</label>
-            <input
-              className={styles.input}
-              {...register("lastName", { required: true })}
-              placeholder='Doe'
+            {/* LAST NAME */}
+
+            <div className={styles.fieldGroup}>
+              <input
+                className={styles.input}
+                {...register("lastName", { required: true })}
+                placeholder='Last Name'
+              />
+              {errors.lastName && (
+                <p className={styles.errorMessage}>Last Name is required</p>
+              )}
+            </div>
+
+            {/* EMAIL */}
+
+            <div className={styles.fieldGroup}>
+              <input
+                className={styles.input}
+                type='email'
+                {...register("email", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
+                })}
+                placeholder='john.doe@example.com'
+              />
+              {errors.email && (
+                <p className={styles.errorMessage}>Invalid Email</p>
+              )}
+            </div>
+
+            {/* COUNTRY */}
+
+            <div className={styles.fieldGroup}>
+              <input
+                className={styles.input}
+                {...register("country", { required: true })}
+                placeholder='e.g. United States'
+              />
+              {errors.country && (
+                <p className={styles.errorMessage}>This field is required</p>
+              )}
+            </div>
+
+            {/* LINKEDIN */}
+
+            <div className={styles.fieldGroup}>
+              <input
+                className={styles.input}
+                {...register("linkedin", { required: true })}
+                placeholder='https://linkedin.com/in/...'
+              />
+              {errors.linkedin && (
+                <p className={styles.errorMessage}>LinkedIn is required</p>
+              )}
+            </div>
+            {/* RESUME UPLOAD */}
+            <div className={styles.fieldGroup}>
+              {/* <label>Resume</label> */}
+              <input
+                type='file'
+                className={styles.fileInput}
+                {...register("resume")}
+              />
+            </div>
+
+            {/* VISAS */}
+            <Image
+              src='/images/visa-options.png'
+              alt='Visa Icon'
+              width={50}
+              height={50}
+              className={styles.questionIcon}
             />
-            {errors.lastName && (
-              <p className={styles.errorMessage}>Last Name is required</p>
-            )}
-          </div>
+            <h4 className={styles.question}>Visa categories of interest?</h4>
+            <div className={styles.fieldGroup}>
+              <div className={styles.checkboxGroup}>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type='checkbox'
+                    value='O-1'
+                    {...register("visas", { required: true })}
+                  />
+                  <span>O-1</span>
+                </label>
 
-          {/* EMAIL */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Email</label>
-            <input
-              className={styles.input}
-              type='email'
-              {...register("email", {
-                required: true,
-                pattern: /^\S+@\S+$/i,
-              })}
-              placeholder='john.doe@example.com'
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type='checkbox'
+                    value='H1B'
+                    {...register("visas", { required: true })}
+                  />
+                  <span>H1B</span>
+                </label>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type='checkbox'
+                    value='E-2'
+                    {...register("visas", { required: true })}
+                  />
+                  <span>E-2</span>
+                </label>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type='checkbox'
+                    value='B2'
+                    {...register("visas", { required: true })}
+                  />
+                  <span>B2</span>
+                </label>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type='checkbox'
+                    value='dontknow'
+                    {...register("visas", { required: true })}
+                  />
+                  <span>I don’t know</span>
+                </label>
+              </div>
+
+              {/* If no checkbox is selected, show an error */}
+              {errors.visas && (
+                <p className={styles.errorMessage}>
+                  Please select at least one visa
+                </p>
+              )}
+            </div>
+            {/* <div className={styles.fieldGroup}>
+              <select
+                multiple
+                className={styles.select}
+                {...register("visas", { required: true })}
+              >
+                <option value='O-1'>O-1</option>
+                <option value='H1B'>H1B</option>
+                <option value='E-2'>E-2</option>
+                <option value='B2'>B2</option>
+                <option value='dontknow'>I don’t know</option>
+              </select>
+              {errors.visas && (
+                <p className={styles.errorMessage}>
+                  Please select at least one visa
+                </p>
+              )}
+            </div> */}
+
+            {/* ADDITIONAL INFO */}
+            <Image
+              src='/images/help.png'
+              alt='Additional Info Icon'
+              width={50}
+              height={50}
+              className={styles.questionIcon}
             />
-            {errors.email && (
-              <p className={styles.errorMessage}>Invalid Email</p>
-            )}
-          </div>
+            <h4 className={styles.question}>How can we help?</h4>
+            <div className={styles.fieldGroup}>
+              <textarea
+                className={styles.textarea}
+                rows={4}
+                {...register("additionalInfo", { required: true })}
+                placeholder='Tell us more about your immigration goals...'
+              />
+              {errors.additionalInfo && (
+                <p className={styles.errorMessage}>This field is required</p>
+              )}
+            </div>
 
-          {/* COUNTRY */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Country of Citizenship</label>
-            <input
-              className={styles.input}
-              {...register("country", { required: true })}
-              placeholder='e.g. United States'
-            />
-            {errors.country && (
-              <p className={styles.errorMessage}>This field is required</p>
-            )}
-          </div>
-
-          {/* LINKEDIN */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              LinkedIn / Personal Website URL
-            </label>
-            <input
-              className={styles.input}
-              {...register("linkedin", { required: true })}
-              placeholder='https://linkedin.com/in/...'
-            />
-            {errors.linkedin && (
-              <p className={styles.errorMessage}>LinkedIn is required</p>
-            )}
-          </div>
-
-          {/* VISAS (MULTIPLE SELECT) */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Visa categories of interest</label>
-            <select
-              multiple
-              className={styles.select}
-              {...register("visas", { required: true })}
-            >
-              <option value='O-1'>O-1</option>
-              <option value='H1B'>H1B</option>
-              <option value='E-2'>E-2</option>
-              <option value='B2'>B2</option>
-              <option value="don't know">I don’t know</option>
-            </select>
-            {errors.visas && (
-              <p className={styles.errorMessage}>
-                Please select at least one visa
-              </p>
-            )}
-          </div>
-
-          {/* RESUME UPLOAD */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Resume / CV</label>
-            <input
-              type='file'
-              className={styles.fileInput}
-              {...register("resume")}
-            />
-          </div>
-
-          {/* ADDITIONAL INFO */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>How can we help you?</label>
-            <textarea
-              className={styles.textarea}
-              rows={4}
-              {...register("additionalInfo", { required: true })}
-              placeholder='Tell us more about your immigration goals...'
-            />
-            {errors.additionalInfo && (
-              <p className={styles.errorMessage}>This field is required</p>
-            )}
-          </div>
-
-          {/* SUBMIT BUTTON */}
-          <button type='submit' className={styles.submitButton}>
-            Submit
-          </button>
-        </form>
+            {/* SUBMIT BUTTON (black) */}
+            <button type='submit' className={styles.submitButton}>
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
