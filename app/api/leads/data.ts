@@ -9,6 +9,7 @@ export interface Lead {
   lastName: string;
   email: string;
   linkedin: string;
+  country: string;
   visas: string[];
   additionalInfo: string;
   state: LeadState;

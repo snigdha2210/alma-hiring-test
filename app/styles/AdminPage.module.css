@@ -1,0 +1,130 @@
+/* AdminPage.module.css */
+
+/* 
+  The container for the entire admin layout:
+  - A side nav on the left
+  - Main content on the right
+*/
+
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #181818; /* black background for the side nav */
+  color: #fff; /* default text color (can adjust) */
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; /* fixed width for side nav */
+  background-color: #000; /* or #181818 if you prefer */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Sidebar top section: Alma logo, "Leads", "Settings" */
+.sidebarTop {
+  padding: 1.5rem;
+}
+
+.sidebarLogo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebarNavItem {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  color: #ccc;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.sidebarNavItem:hover {
+  color: #fff;
+}
+
+/* Sidebar bottom: "Admin" or any user info at bottom */
+.sidebarBottom {
+  padding: 1.5rem;
+  border-top: 1px solid #333;
+}
+
+/* MAIN CONTENT */
+.mainContent {
+  flex: 1;
+  background-color: #f9f9f9;
+  color: #000; /* main text color in content area */
+  padding: 2rem;
+}
+
+/* Page header above the table */
+.pageHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Table styling */
+.tableContainer {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.tableTitleBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tableFilters {
+  display: flex;
+  gap: 1rem;
+}
+
+.tableFilters select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* The actual table */
+.leadsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leadsTable thead tr {
+  background-color: #f3f3f3;
+  text-align: left;
+}
+
+.leadsTable th,
+.leadsTable td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.leadsTable tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* Status Badge (optional styling) */
+.statusPending {
+  color: #ff9800; /* orange */
+  font-weight: 500;
+}
+
+.statusReached {
+  color: #4caf50; /* green */
+  font-weight: 500;
+}

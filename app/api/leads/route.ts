@@ -1,9 +1,8 @@
+// app/api/leads/route.ts
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import { Lead, LeadState } from "./data";
-
-// In-memory leads array (for demo)
-const leads: Lead[] = [];
+import { leads } from "./leadsStore";
+import { LeadState } from "./data";
 
 export async function GET() {
   return NextResponse.json(leads, { status: 200 });
@@ -18,9 +17,10 @@ export async function POST(request: Request) {
     lastName: formData.get("lastName") as string,
     email: formData.get("email") as string,
     linkedin: formData.get("linkedin") as string,
-    visas: formData.getAll("visas") as string[], // getAll for repeated fields
+    visas: formData.getAll("visas") as string[],
+    country: formData.get("country") as string,
     additionalInfo: formData.get("additionalInfo") as string,
-    resumeUrl: formData.get("resumeUrl") as string,
+    resumeUrl: "" as string,
     state: LeadState.PENDING,
     submittedAt: new Date().toISOString(),
   };
@@ -28,11 +28,13 @@ export async function POST(request: Request) {
   // Handle file if present
   const resume = formData.get("resume") as File | null;
   if (resume && resume.size > 0) {
-    // In production, we'd upload to S3 or similar. We'll just store a placeholder path.
+    // For demonstration, use a placeholder path.
     newLead.resumeUrl = `/uploads/${resume.name}`;
   }
-
+  console.log(newLead);
   leads.push(newLead);
+  console.log("done");
+  console.log(leads);
 
   return NextResponse.json(newLead, { status: 201 });
 }

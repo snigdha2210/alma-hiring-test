@@ -1,11 +1,11 @@
 import { Lead, LeadState } from "@/app/api/leads/data";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Leads {
+interface LeadsList {
   leads: Lead[];
 }
 
-const initialState: Leads = {
+const initialState: LeadsList = {
   leads: [],
 };
 

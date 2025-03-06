@@ -1,7 +1,7 @@
 // app/layout.tsx
 
 import ReduxProvider from "./ReduxProvider";
-
+import "./styles/globals.css";
 export const metadata = {
   title: "My App",
 };
