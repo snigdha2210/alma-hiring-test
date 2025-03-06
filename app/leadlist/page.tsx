@@ -1,34 +1,30 @@
 "use client";
 
-import { setLeads, updateLeadState } from "@/redux/slices/leadSlice";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../styles/AdminPage.module.css";
-import { Lead, LeadState } from "../api/leads/data";
+import { setLeads, updateLeadState } from "@/redux/slices/leadSlice";
 import { RootState } from "@/redux/store";
-import { FaCheckCircle } from "react-icons/fa";
+import { LeadState } from "@/app/api/leads/data";
+
+import Filters from "@/components/Filters";
+import LeadTable from "@/components/LeadTable";
+import styles from "../styles/AdminPage.module.css";
+import Sidebar from "@/components/SideBar";
+// import { FaCheckCircle } from "react-icons/fa";
+
 const AdminPage: React.FC = () => {
-  // const router = useRouter();
+  // Authentication modal state
   const [authorized, setAuthorized] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Local states for search, filtering, and sorting
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState(""); // empty means no filter
-  const [sortColumn, setSortColumn] = useState<
-    "name" | "submitted" | "status" | "country" | ""
-  >("");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-  // Dummy credentials: update these as needed
+  // Dummy credentials
   const validUsername = "admin";
   const validPassword = "password";
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate credentials
     if (username === validUsername && password === validPassword) {
       setAuthorized(true);
       setError("");
@@ -37,7 +33,6 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  // The modal overlay for authorization if not logged in.
   const renderAuthModal = () => (
     <div
       style={{
@@ -101,6 +96,7 @@ const AdminPage: React.FC = () => {
       </div>
     </div>
   );
+
   const dispatch = useDispatch();
   const leads = useSelector((state: RootState) => state.leads.leads);
 
@@ -118,11 +114,18 @@ const AdminPage: React.FC = () => {
     fetchLeads();
   }, [dispatch]);
 
-  // Sorting function for leads
+  // Local state for search, filtering, and sorting
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [sortColumn, setSortColumn] = useState<
+    "name" | "submitted" | "status" | "country" | ""
+  >("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  // Derived sorted & filtered leads
   const sortedLeads = useMemo(() => {
     let filtered = leads;
 
-    // Filter by searchTerm (case-insensitive on full name)
     if (searchTerm.trim() !== "") {
       const lowerSearch = searchTerm.toLowerCase();
       filtered = filtered.filter((lead) =>
@@ -132,17 +135,14 @@ const AdminPage: React.FC = () => {
       );
     }
 
-    // Filter by status (if set)
     if (statusFilter) {
       filtered = filtered.filter((lead) => lead.state === statusFilter);
     }
 
-    // Sort filtered array if sortColumn is set
     if (sortColumn) {
       filtered = [...filtered].sort((a, b) => {
         let aValue = "";
         let bValue = "";
-
         switch (sortColumn) {
           case "name":
             aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
@@ -163,7 +163,6 @@ const AdminPage: React.FC = () => {
           default:
             break;
         }
-
         if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
         if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
         return 0;
@@ -172,20 +171,17 @@ const AdminPage: React.FC = () => {
     return filtered;
   }, [leads, searchTerm, statusFilter, sortColumn, sortOrder]);
 
-  // Toggle sorting for a given column
   const handleSort = (column: "name" | "submitted" | "status" | "country") => {
     if (sortColumn === column) {
-      // Toggle order if same column clicked
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortColumn(column);
       setSortOrder("asc");
     }
   };
-  // Update lead state via API + Redux
+
   const handleStateChange = async (id: string, newState: LeadState) => {
     try {
-      console.log("id", id);
       const res = await fetch(`/api/leads/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -199,158 +195,27 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  // Render the page. If not authorized, we still render the leads list in the background,
-  // but we overlay it with the auth modal.
   return (
     <>
       <div className={styles.adminLayout}>
-        {/* SIDEBAR */}
-        <aside className={styles.sidebar}>
-          <div className={styles.sidebarTop}>
-            <div className={styles.sidebarLogo}>
-              alma
-              {/* <Image
-                src='/images/alma-logo.png'
-                alt='Alma Logo'
-                width={100}
-                height={30}
-                className={styles.almaLogo}
-              /> */}
-            </div>
-            <nav className={styles.sidebarNav}>
-              <a className={styles.sidebarNavItem}>Leads</a>
-              <a className={styles.sidebarNavItem}>Settings</a>
-            </nav>
-          </div>
-          <div className={styles.sidebarBottom}>
-            <div className={styles.sidebarNavItem}>Admin</div>
-          </div>
-        </aside>
-
-        {/* MAIN CONTENT */}
+        <Sidebar />
         <main className={styles.mainContent}>
           <h1 className={styles.pageHeader}>Leads</h1>
-
-          {/* Filters: Search bar and status filter */}
-          <div
-            className={styles.filterContainer}
-            style={{
-              marginBottom: "1rem",
-              display: "flex",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type='text'
-              placeholder='Search by name...'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ padding: "0.5rem", flex: 1 }}
-            />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              style={{ padding: "0.5rem" }}
-            >
-              <option value=''>All Statuses</option>
-              <option value={LeadState.PENDING}>Pending</option>
-              <option value={LeadState.REACHED_OUT}>Reached Out</option>
-            </select>
-          </div>
-
-          <div className={styles.tableContainer}>
-            {/* Table with sortable headers */}
-            <table className={styles.leadsTable}>
-              <thead>
-                <tr>
-                  <th
-                    onClick={() => handleSort("name")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Name{" "}
-                    {sortColumn === "name" && (sortOrder === "asc" ? "↑" : "↓")}
-                  </th>
-                  <th
-                    onClick={() => handleSort("submitted")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Submitted{" "}
-                    {sortColumn === "submitted" &&
-                      (sortOrder === "asc" ? "↑" : "↓")}
-                  </th>
-                  <th
-                    onClick={() => handleSort("status")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Status{" "}
-                    {sortColumn === "status" &&
-                      (sortOrder === "asc" ? "↑" : "↓")}
-                  </th>
-                  <th
-                    onClick={() => handleSort("country")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Country{" "}
-                    {sortColumn === "country" &&
-                      (sortOrder === "asc" ? "↑" : "↓")}
-                  </th>
-                  <th>Mark as Reached Out</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedLeads.map((lead: Lead) => (
-                  <tr key={lead.id}>
-                    <td>{`${lead.firstName} ${lead.lastName}`}</td>
-                    <td>{new Date(lead.submittedAt).toLocaleString()}</td>
-                    <td>
-                      {lead.state === LeadState.PENDING ? (
-                        <span className={styles.statusPending}>Pending</span>
-                      ) : (
-                        <span className={styles.statusReached}>
-                          Reached Out
-                        </span>
-                      )}
-                    </td>
-                    <td>{lead.country || "—"}</td>
-                    <td>
-                      {lead.state !== LeadState.PENDING ? (
-                        <FaCheckCircle
-                          color='green'
-                          title='Reached Out'
-                          size={20}
-                        />
-                      ) : (
-                        <button
-                          onClick={() =>
-                            handleStateChange(lead.id, LeadState.REACHED_OUT)
-                          }
-                          // style={{ cursor: "pointer" }}
-                          className={styles.iconButton}
-                        >
-                          <FaCheckCircle
-                            color='grey'
-                            title='Mark as Reached Out'
-                            size={20}
-                          />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {sortedLeads.length === 0 && (
-                  <tr>
-                    <td colSpan={5} style={{ textAlign: "center" }}>
-                      No leads found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Filters
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
+          <LeadTable
+            leads={sortedLeads}
+            sortColumn={sortColumn}
+            sortOrder={sortOrder}
+            handleSort={handleSort}
+            handleStateChange={handleStateChange}
+          />
         </main>
       </div>
-
       {!authorized && renderAuthModal()}
     </>
   );
