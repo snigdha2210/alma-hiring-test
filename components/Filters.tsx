@@ -33,12 +33,12 @@ const Filters: React.FC<FiltersProps> = ({
         placeholder='Search by name...'
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ padding: "0.5rem", flex: 1 }}
+        style={{ padding: "0.5rem", flex: 1, borderRadius: "10px" }}
       />
       <select
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
-        style={{ padding: "0.5rem" }}
+        style={{ padding: "0.5rem", borderRadius: "10px" }}
       >
         <option value=''>All Statuses</option>
         <option value={LeadState.PENDING}>Pending</option>

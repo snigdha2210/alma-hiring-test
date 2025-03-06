@@ -11,7 +11,7 @@ export async function PATCH(
   await new Promise((resolve) => setTimeout(resolve, 0));
 
   // Now read the dynamic parameter.
-  const id = params.id;
+  const { id } = await Promise.resolve(params);
   const body = await request.json();
 
   const leadIndex = leads.findIndex((l) => l.id === id);
