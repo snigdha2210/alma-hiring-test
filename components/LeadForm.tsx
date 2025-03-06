@@ -125,7 +125,7 @@ const LeadForm: React.FC = () => {
                   required: true,
                   pattern: /^\S+@\S+$/i,
                 })}
-                placeholder='john.doe@example.com'
+                placeholder='Email'
               />
               {errors.email && (
                 <p className={styles.errorMessage}>Invalid Email</p>
@@ -138,7 +138,7 @@ const LeadForm: React.FC = () => {
               <input
                 className={styles.input}
                 {...register("country", { required: true })}
-                placeholder='e.g. United States'
+                placeholder='Country of Citizenship'
               />
               {errors.country && (
                 <p className={styles.errorMessage}>This field is required</p>
@@ -151,7 +151,7 @@ const LeadForm: React.FC = () => {
               <input
                 className={styles.input}
                 {...register("linkedin", { required: true })}
-                placeholder='https://linkedin.com/in/...'
+                placeholder='Linkedin / Personal Website URL'
               />
               {errors.linkedin && (
                 <p className={styles.errorMessage}>LinkedIn is required</p>
@@ -159,7 +159,6 @@ const LeadForm: React.FC = () => {
             </div>
             {/* RESUME UPLOAD */}
             <div className={styles.fieldGroup}>
-              {/* <label>Resume</label> */}
               <input
                 type='file'
                 className={styles.fileInput}
@@ -231,24 +230,6 @@ const LeadForm: React.FC = () => {
                 </p>
               )}
             </div>
-            {/* <div className={styles.fieldGroup}>
-              <select
-                multiple
-                className={styles.select}
-                {...register("visas", { required: true })}
-              >
-                <option value='O-1'>O-1</option>
-                <option value='H1B'>H1B</option>
-                <option value='E-2'>E-2</option>
-                <option value='B2'>B2</option>
-                <option value='dontknow'>I don’t know</option>
-              </select>
-              {errors.visas && (
-                <p className={styles.errorMessage}>
-                  Please select at least one visa
-                </p>
-              )}
-            </div> */}
 
             {/* ADDITIONAL INFO */}
             <Image
