@@ -1,18 +1,26 @@
 "use client";
 
 import { setLeads, updateLeadState } from "@/redux/slices/leadSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/AdminPage.module.css";
 import { Lead, LeadState } from "../api/leads/data";
 import { RootState } from "@/redux/store";
-
+import { FaCheckCircle } from "react-icons/fa";
 const AdminPage: React.FC = () => {
   // const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // Local states for search, filtering, and sorting
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState(""); // empty means no filter
+  const [sortColumn, setSortColumn] = useState<
+    "name" | "submitted" | "status" | "country" | ""
+  >("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   // Dummy credentials: update these as needed
   const validUsername = "admin";
@@ -109,6 +117,71 @@ const AdminPage: React.FC = () => {
 
     fetchLeads();
   }, [dispatch]);
+
+  // Sorting function for leads
+  const sortedLeads = useMemo(() => {
+    let filtered = leads;
+
+    // Filter by searchTerm (case-insensitive on full name)
+    if (searchTerm.trim() !== "") {
+      const lowerSearch = searchTerm.toLowerCase();
+      filtered = filtered.filter((lead) =>
+        `${lead.firstName} ${lead.lastName}`
+          .toLowerCase()
+          .includes(lowerSearch),
+      );
+    }
+
+    // Filter by status (if set)
+    if (statusFilter) {
+      filtered = filtered.filter((lead) => lead.state === statusFilter);
+    }
+
+    // Sort filtered array if sortColumn is set
+    if (sortColumn) {
+      filtered = [...filtered].sort((a, b) => {
+        let aValue = "";
+        let bValue = "";
+
+        switch (sortColumn) {
+          case "name":
+            aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+            bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+            break;
+          case "submitted":
+            aValue = a.submittedAt;
+            bValue = b.submittedAt;
+            break;
+          case "status":
+            aValue = a.state;
+            bValue = b.state;
+            break;
+          case "country":
+            aValue = a.country ? a.country.toLowerCase() : "";
+            bValue = b.country ? b.country.toLowerCase() : "";
+            break;
+          default:
+            break;
+        }
+
+        if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+        if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+    return filtered;
+  }, [leads, searchTerm, statusFilter, sortColumn, sortOrder]);
+
+  // Toggle sorting for a given column
+  const handleSort = (column: "name" | "submitted" | "status" | "country") => {
+    if (sortColumn === column) {
+      // Toggle order if same column clicked
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortOrder("asc");
+    }
+  };
   // Update lead state via API + Redux
   const handleStateChange = async (id: string, newState: LeadState) => {
     try {
@@ -134,7 +207,16 @@ const AdminPage: React.FC = () => {
         {/* SIDEBAR */}
         <aside className={styles.sidebar}>
           <div className={styles.sidebarTop}>
-            <div className={styles.sidebarLogo}>almà</div>
+            <div className={styles.sidebarLogo}>
+              alma
+              {/* <Image
+                src='/images/alma-logo.png'
+                alt='Alma Logo'
+                width={100}
+                height={30}
+                className={styles.almaLogo}
+              /> */}
+            </div>
             <nav className={styles.sidebarNav}>
               <a className={styles.sidebarNavItem}>Leads</a>
               <a className={styles.sidebarNavItem}>Settings</a>
@@ -149,40 +231,75 @@ const AdminPage: React.FC = () => {
         <main className={styles.mainContent}>
           <h1 className={styles.pageHeader}>Leads</h1>
 
-          <div className={styles.tableContainer}>
-            {/* Optional Title Bar with Filters */}
-            <div className={styles.tableTitleBar}>
-              <div>
-                <strong>All Leads</strong>
-              </div>
-              <div className={styles.tableFilters}>
-                <select defaultValue=''>
-                  <option value=''>Status</option>
-                  <option value='PENDING'>Pending</option>
-                  <option value='REACHED_OUT'>Reached Out</option>
-                </select>
-                <select defaultValue=''>
-                  <option value=''>Country</option>
-                  <option value='Mexico'>Mexico</option>
-                  <option value='Brazil'>Brazil</option>
-                  <option value='France'>France</option>
-                  {/* etc */}
-                </select>
-              </div>
-            </div>
+          {/* Filters: Search bar and status filter */}
+          <div
+            className={styles.filterContainer}
+            style={{
+              marginBottom: "1rem",
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+            }}
+          >
+            <input
+              type='text'
+              placeholder='Search by name...'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ padding: "0.5rem", flex: 1 }}
+            />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              style={{ padding: "0.5rem" }}
+            >
+              <option value=''>All Statuses</option>
+              <option value={LeadState.PENDING}>Pending</option>
+              <option value={LeadState.REACHED_OUT}>Reached Out</option>
+            </select>
+          </div>
 
+          <div className={styles.tableContainer}>
+            {/* Table with sortable headers */}
             <table className={styles.leadsTable}>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Submitted</th>
-                  <th>Status</th>
-                  <th>Country</th>
-                  <th>Action</th>
+                  <th
+                    onClick={() => handleSort("name")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Name{" "}
+                    {sortColumn === "name" && (sortOrder === "asc" ? "↑" : "↓")}
+                  </th>
+                  <th
+                    onClick={() => handleSort("submitted")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Submitted{" "}
+                    {sortColumn === "submitted" &&
+                      (sortOrder === "asc" ? "↑" : "↓")}
+                  </th>
+                  <th
+                    onClick={() => handleSort("status")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Status{" "}
+                    {sortColumn === "status" &&
+                      (sortOrder === "asc" ? "↑" : "↓")}
+                  </th>
+                  <th
+                    onClick={() => handleSort("country")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Country{" "}
+                    {sortColumn === "country" &&
+                      (sortOrder === "asc" ? "↑" : "↓")}
+                  </th>
+                  <th>Mark as Reached Out</th>
                 </tr>
               </thead>
               <tbody>
-                {leads.map((lead: Lead) => (
+                {sortedLeads.map((lead: Lead) => (
                   <tr key={lead.id}>
                     <td>{`${lead.firstName} ${lead.lastName}`}</td>
                     <td>{new Date(lead.submittedAt).toLocaleString()}</td>
@@ -197,19 +314,37 @@ const AdminPage: React.FC = () => {
                     </td>
                     <td>{lead.country || "—"}</td>
                     <td>
-                      {lead.state === LeadState.PENDING && (
+                      {lead.state !== LeadState.PENDING ? (
+                        <FaCheckCircle
+                          color='green'
+                          title='Reached Out'
+                          size={20}
+                        />
+                      ) : (
                         <button
                           onClick={() =>
                             handleStateChange(lead.id, LeadState.REACHED_OUT)
                           }
-                          style={{ cursor: "pointer" }}
+                          // style={{ cursor: "pointer" }}
+                          className={styles.iconButton}
                         >
-                          Mark as Reached Out
+                          <FaCheckCircle
+                            color='grey'
+                            title='Mark as Reached Out'
+                            size={20}
+                          />
                         </button>
                       )}
                     </td>
                   </tr>
                 ))}
+                {sortedLeads.length === 0 && (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: "center" }}>
+                      No leads found.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
