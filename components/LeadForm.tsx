@@ -176,7 +176,13 @@ const LeadForm: React.FC = () => {
             <div className={styles.fieldGroup}>
               <input
                 className={styles.input}
-                {...register("linkedin", { required: true })}
+                {...register("linkedin", {
+                  required: true,
+                  pattern: {
+                    value: /^(ftp|http|https):\/\/[^ "]+$/,
+                    message: "Enter a valid URL",
+                  },
+                })}
                 placeholder='Linkedin / Personal Website URL'
               />
               {errors.linkedin && (
