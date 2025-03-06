@@ -1,0 +1,165 @@
+/* LeadForm.module.css */
+
+/* 
+  The entire page container that includes a hero section at the top 
+  with a background image or color. 
+*/
+.pageContainer {
+  /* The page is at least the full viewport height */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* Adjust or remove if we want a specific background color behind the image */
+  background-color: #fafaf7;
+}
+
+/* 
+    The top hero section that holds the background image and the heading. 
+    The height can be adjusted depending on how large we want the hero to be.
+  */
+.heroSection {
+  background: url("/images/hero-section.png") no-repeat top left;
+  background-size: cover; /* Adjust if our image is large or small */
+  background-color: #d3dec5; /* A fallback greenish color, or match our brand */
+  width: 100%;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+/* The large heading in the hero section */
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  color: #2c2c2c; /* Dark text */
+}
+
+/* The main subtitle or descriptive text under the heading */
+.heroSubtitle {
+  font-size: 1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto; /* center text for large screens */
+  line-height: 1.5;
+}
+
+/* 
+    Container for the form content itself, placed below the hero.
+    we can add a margin-top to create spacing from the hero section.
+  */
+.formContainer {
+  max-width: 500px;
+  width: 100%;
+  background: #fff;
+  margin: -3rem auto 2rem; /* negative margin to overlap hero if desired */
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+/* 
+    Title above the form fields (if we need a second heading 
+    or we can omit this if our hero title is the main heading)
+  */
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Optional smaller instructions above the fields */
+.formInstructions {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 2rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Container for all fields (flex column) */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* spacing between fields */
+}
+
+/* Each label + input group */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Inputs, selects, and textareas share some base styles */
+.input,
+.select,
+.textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* For multiple select fields */
+.select[multiple] {
+  height: 5rem;
+  overflow-y: auto;
+}
+
+/* If we want a smaller or different style for file inputs */
+.fileInput {
+  font-size: 0.95rem;
+  padding: 0;
+}
+
+/* Style the textarea specifically */
+.textarea {
+  resize: vertical;
+}
+
+/* Submit button styling */
+.submitButton {
+  display: inline-block;
+  background: #000; /* or our brand color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  align-self: center; /* centers the button if using flex */
+  transition: background 0.3s ease;
+}
+
+.submitButton:hover {
+  background: #333; /* slightly different shade */
+}
+
+/* 
+    Basic error message style
+  */
+.errorMessage {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  .formContainer {
+    margin: -2rem auto 2rem;
+    padding: 1.5rem;
+  }
+}

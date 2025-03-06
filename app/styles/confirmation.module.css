@@ -1,0 +1,24 @@
+/* Confirmation.module.css */
+.confirmationContainer {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.confirmationTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.confirmationMessage {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.backLink {
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
