@@ -1,8 +1,8 @@
-"use client"; // If needed (Next.js 13 app router)
+"use client";
 
 import React from "react";
 import Link from "next/link";
-import styles from "../app/styles/confirmation.module.css";
+import styles from "../styles/confirmation.module.css";
 
 export default function Confirmation() {
   return (
