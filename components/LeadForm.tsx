@@ -47,8 +47,17 @@ const LeadForm: React.FC = () => {
     }
 
     try {
-      await fetch("/api/leads", { method: "POST", body: formData });
-      router.push("/confirmation");
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.status === 201) {
+        router.push("/confirmation");
+      } else {
+        console.error("Unexpected response", response);
+        alert("Something went wrong. Please try again.");
+      }
     } catch (error) {
       console.error(error);
       alert("Something went wrong. Please try again.");
@@ -82,7 +91,11 @@ const LeadForm: React.FC = () => {
         {/* If we want to keep the subtitle, place it here (left aligned or centered). */}
 
         <div className={styles.formContainer}>
-          <form onSubmit={handleSubmit(onSubmit)} className={styles.formFields}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles.formFields}
+            encType='multipart/form-data'
+          >
             {/* Icon + Field: Center the icon using .questionIcon */}
             <Image
               src='/images/folder.png'
