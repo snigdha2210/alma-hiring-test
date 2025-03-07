@@ -1,4 +1,3 @@
-// components/Sidebar.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -20,23 +19,32 @@ const Sidebar: React.FC = () => {
 
       {/* Sidebar container */}
       <div className={`${styles.sidebar} ${open ? styles.openSidebar : ""}`}>
-        <div className={styles.sidebarHeader}>
+        <div className={styles.sidebarTop}>
+          {/* Logo at the top */}
           <div className={styles.sidebarLogo}>
             <Image
-              src='/images/alma-logo.png'
+              src='/images/logo-white.png'
               alt='Alma Logo'
               width={100}
               height={30}
             />
           </div>
+        </div>
+
+        {/* Navigation links at the bottom */}
+        <div className={styles.sidebarBottom}>
+          <nav className={styles.sidebarNav}>
+            <a className={styles.sidebarNavItem}>Leads</a>
+            <a className={styles.sidebarNavItem}>Settings</a>
+          </nav>
+        </div>
+
+        {/* Close icon visible on small screens */}
+        <div className={styles.sidebarHeader}>
           <div className={styles.closeIcon} onClick={toggleSidebar}>
             <FaTimes size={24} color='#fff' />
           </div>
         </div>
-        <nav className={styles.sidebarNav}>
-          <a className={styles.sidebarNavItem}>Leads</a>
-          <a className={styles.sidebarNavItem}>Settings</a>
-        </nav>
       </div>
 
       {/* Overlay when sidebar is open on small screens */}

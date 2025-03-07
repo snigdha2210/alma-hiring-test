@@ -158,18 +158,6 @@ const LeadForm: React.FC = () => {
                 <p className={styles.errorMessage}>Country is required</p>
               )}
             </div>
-            {/* <div className={styles.fieldGroup}>
-              <input
-                className={styles.input}
-                {...register("country", { required: true })}
-                placeholder='Country of Citizenship'
-              />
-              {errors.country && (
-                <p className={styles.errorMessage}>
-                  Country of Citizenship is required
-                </p>
-              )}
-            </div> */}
 
             {/* LINKEDIN */}
 

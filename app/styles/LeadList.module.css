@@ -1,11 +1,33 @@
 /* LeadList.module.css */
 
-/* 
-  The container for the entire admin layout:
-  - A side nav on the left
-  - Main content on the right
-*/
-/* Additional styles in LeadList.module.css */
+/* Pagination styles */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.paginationButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.paginationButton:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.paginationInfo {
+  font-size: 1rem;
+}
+
 .filterContainer {
   display: flex;
   gap: 1rem;

@@ -1,4 +1,3 @@
-// components/AuthGuard.tsx
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -20,7 +19,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   }, [router]);
 
   if (!authorized) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return <>{children}</>;
