@@ -118,6 +118,8 @@ This project uses Jest and React Testing Library for unit testing.
 
 - **Authentication:**  
   The admin interface is protected by an inline authentication modal. Users enter valid credentials to gain access. (admin,password)
+- **Sorting, Filtering, Searching:**  
+  The admin can search for any particular person, filter through status and sort all columns.
 - **State Management:**  
   Leads are managed in a Redux store. When a lead is submitted, it is stored in memory (via API routes) and synchronized with Redux.
 - **CRUD Functionality:**  
