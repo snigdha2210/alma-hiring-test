@@ -72,6 +72,10 @@ The project is organized using Next.js 13’s App Router with a modular structur
 
    The application will be available at [http://localhost:3000](http://localhost:3000).
 
+   The Lead Form will be available at [http://localhost:3000](http://localhost:3000).
+
+   The Lead List will be available at [http://localhost:3000/leadlist](http://localhost:3000/leadlist).
+
 4. **Build and Start for Production**
 
    To build the application for production:
