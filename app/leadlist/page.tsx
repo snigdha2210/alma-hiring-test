@@ -65,6 +65,7 @@ const LeadList: React.FC = () => {
             <input
               type='text'
               value={username}
+              aria-label='Username'
               onChange={(e) => setUsername(e.target.value)}
               style={{ width: "100%", padding: "0.5rem", marginTop: "0.25rem" }}
             />
@@ -74,6 +75,7 @@ const LeadList: React.FC = () => {
             <input
               type='password'
               value={password}
+              aria-label='Password'
               onChange={(e) => setPassword(e.target.value)}
               style={{ width: "100%", padding: "0.5rem", marginTop: "0.25rem" }}
             />
