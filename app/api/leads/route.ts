@@ -31,10 +31,8 @@ export async function POST(request: Request) {
     // For demonstration, use a placeholder path.
     newLead.resumeUrl = `/uploads/${resume.name}`;
   }
-  console.log(newLead);
+
   leads.push(newLead);
-  console.log("done");
-  console.log(leads);
 
   return NextResponse.json(newLead, { status: 201 });
 }
